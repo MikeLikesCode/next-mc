@@ -1,30 +1,15 @@
 import React, {useEffect} from 'react'
 import Head from "next/head";
 import { getSkin } from './api/api'
-
-// Components
-
-import { Canvas } from "react-three-fiber"
-import { HTML } from "drei"
-
-const HTMLContent = () => {
-  return (
-    <section>
-    <Html fullscreen>
-      <div className="container">
-        <h1 className="title">Hi</h1>
-      </div>
-    </Html>
-    </section>
-  )
-}
-
+import Box from "../components/box"
+import { Canvas } from 'react-three-fiber'
 
 function Home({data}) {
   useEffect(() => {
    getSkin(data);
   }, []);
 
+  // https://github.com/pmndrs/react-three-next Trying this next for implementing three.js
   return (
     <div>
       <Head>
@@ -33,7 +18,25 @@ function Home({data}) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      
+      <Canvas
+      colorManagement
+      camera={{
+        position: [-5, 7, 11],
+        fov: 75
+      }}
+    >
+      {/* Lights */}
+      <rectAreaLight
+        intensity={3}
+        position={[0, 1, 10]}
+        width={50}
+        height={50}
+      />
+      {/* The Ball and stand */}
+      <group position={[0, -1, 0]}>
+        <Box/>
+      </group>
+    </Canvas>
     </div>
   );
 }
